@@ -45,6 +45,27 @@ CREATE TABLE IF NOT EXISTS ride (
 );
 
 # Stored Procedures
+DELIMITER //
+
+CREATE PROCEDURE send_notification
+	(in_user_id INT(10) UNSIGNED, in_title VARCHAR(255), in_message TEXT, in_from_user_id INT(10) UNSIGNED, in_matched BOOLEAN)
+BEGIN
+	INSERT INTO notifications
+		(user_id, title, message, from_user_id, matched)
+        VALUES (in_user_id, in_title, in_message, in_from_user_id, in_matched);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE get_notification_list
+	(in_user_id INT(10) UNSIGNED)
+BEGIN
+	SELECT id, title, sent, seen FROM notifications WHERE user_id=in_user_id ORDER BY id DESC;
+END //
+
+DELIMITER ;
 
 # Triggers
 
@@ -52,3 +73,29 @@ CREATE TABLE IF NOT EXISTS ride (
 INSERT INTO location (location_name, lat, lng) VALUES
 ('Hallgrímskirkja', 64.1425650000, -21.9278090000),
 ('Tækniskólinn - Skólavörðuholti', 64.1420920000, -21.9255880000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
