@@ -47,3 +47,8 @@ CREATE TABLE IF NOT EXISTS ride (
 # Stored Procedures
 
 # Triggers
+
+# Insert Statements
+INSERT INTO location (location_name, lat, lng) VALUES
+('Hallgrímskirkja', 64.1425650000, -21.9278090000),
+('Tækniskólinn - Skólavörðuholti', 64.1420920000, -21.9255880000);
