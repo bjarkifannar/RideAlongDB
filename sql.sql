@@ -59,6 +59,21 @@ DELIMITER ;
 
 DELIMITER //
 
+CREATE PROCEDURE get_schedule 
+		(in_user_id INT(11) UNSIGNED, in_day INT(11))
+BEGIN
+SELECT weekplanner.day AS day, 
+	weekplanner.leaving AS leaving, 
+	weekplanner.to_id AS to_id, 
+	weekplanner.from_id AS from_id, 
+	weekplanner.plan_id AS plan_id,
+	planner.id AS id
+	FROM weekplanner
+	JOIN planner ON weekplanner.plan_id=planner.id
+	WHERE planner.user_id = in_user_id AND weekplanner.day = in_day
+	ORDER BY day;
+END
+
 CREATE PROCEDURE get_notification_list
 	(in_user_id INT(10) UNSIGNED)
 BEGIN
