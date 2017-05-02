@@ -44,6 +44,36 @@ CREATE TABLE IF NOT EXISTS ride (
 		REFERENCES location(id)
 );
 
+CREATE TABLE IF NOT EXISTS `planner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
+
+CREATE TABLE IF NOT EXISTS `dayplanner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` int(11) NOT NULL,
+  `leaving` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `from_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `to_id` (`to_id`),
+  KEY `from_id` (`from_id`),
+  KEY `user_id` (`plan_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+
+ALTER TABLE `planner`
+  ADD CONSTRAINT `fk_user_id_plan` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `dayplanner`
+  ADD CONSTRAINT `fk_from_id_week` FOREIGN KEY (`from_id`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `planner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_to_id_week` FOREIGN KEY (`to_id`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
 # Stored Procedures
 DELIMITER //
 
