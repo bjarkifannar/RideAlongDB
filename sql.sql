@@ -102,12 +102,36 @@ SELECT weekplanner.day AS day,
 	JOIN planner ON weekplanner.plan_id=planner.id
 	WHERE planner.user_id = in_user_id AND weekplanner.day = in_day
 	ORDER BY day;
-END
+END //
+
+DELIMITER ;
+
+DELIMITER //
 
 CREATE PROCEDURE get_notification_list
 	(in_user_id INT(10) UNSIGNED)
 BEGIN
 	SELECT id, title, sent, seen FROM notifications WHERE user_id=in_user_id ORDER BY id DESC;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE `get_plan_info` (IN `in_user_id` INT(10) UNSIGNED)
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+BEGIN
+	SELECT dayplanner.day AS day,
+			dayplanner.leaving AS leaving,
+			dayplanner.to_id AS to_id,
+			dayplanner.from_id AS from_id,
+			dayplanner.plan_id AS plan_id,
+			planner.id AS id
+				FROM dayplanner
+					JOIN planner ON dayplanner.plan_id=planner.id
+				WHERE dayplanner.plan_id = in_user_id;
 END //
 
 DELIMITER ;
