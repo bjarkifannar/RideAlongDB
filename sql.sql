@@ -136,6 +136,25 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE `get_ride_info`
+		(IN `in_to_id` INT(11), IN `in_from_id` INT(11)) 
+		NOT DETERMINISTIC 
+		CONTAINS SQL 
+		SQL SECURITY DEFINER 
+BEGIN 
+	SELECT ride.message AS ride_message, 
+			ride.updated_at AS ride_time, 
+			users.id AS user_id, 
+			users.name AS user_name 
+				FROM ride 
+					INNER JOIN users ON ride.user_id = users.id 
+				WHERE ride.to_id = in_to_id AND ride.from_id = in_from_id AND ride.available = 1 
+				ORDER BY ride.id ASC; 
+END //
+
+DELIMITER ;
+
 # Triggers
 
 # Insert Statements
