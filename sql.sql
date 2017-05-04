@@ -140,31 +140,11 @@ DELIMITER ;
 
 # Insert Statements
 INSERT INTO location (location_name, lat, lng) VALUES
-('Hallgrímskirkja', 64.1425650000, -21.9278090000),
-('Tækniskólinn - Skólavörðuholti', 64.1420920000, -21.9255880000);
+	('Hallgrímskirkja', 64.1425650000, -21.9278090000),
+	('Tækniskólinn - Skólavörðuholti', 64.1420920000, -21.9255880000);
 
+INSERT INTO notifications (user_id, title, message) VALUES (2, 'Test', 'This is a test notification!');
 
+INSERT INTO notifications (user_id, title, message) VALUES (2, 'Test 2', 'This is the 2nd test notification!');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO notifications (user_id, title, message) VALUES (1, 'Testing', 'This is a test notification!');
