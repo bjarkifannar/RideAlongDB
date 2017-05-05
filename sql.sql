@@ -73,6 +73,10 @@ ALTER TABLE `dayplanner`
   ADD CONSTRAINT `fk_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `planner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_to_id_week` FOREIGN KEY (`to_id`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+ALTER TABLE `social_accounts` ADD `user_img` TEXT NULL DEFAULT NULL AFTER `provider`;
+
+ALTER TABLE `social_accounts`
+  ADD CONSTRAINT `fk_social_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 # Stored Procedures
 DELIMITER //
@@ -156,6 +160,18 @@ END //
 DELIMITER ;
 
 # Triggers
+
+DELIMITER //
+
+CREATE TRIGGER insert_img_link BEFORE INSERT ON social_accounts
+FOR EACH ROW
+	BEGIN
+    	IF NEW.provider = 'facebook' THEN
+			SET NEW.user_img = CONCAT('http://graph.facebook.com/', NEW.provider_user_id, '/picture?width=300');
+        END IF;
+    END //
+
+DELIMITER ;
 
 # Insert Statements
 INSERT INTO location (location_name, lat, lng) VALUES
