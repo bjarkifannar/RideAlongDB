@@ -141,6 +141,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
+
 CREATE PROCEDURE `get_ride_info`
 		(IN `in_to_id` INT(11), IN `in_from_id` INT(11)) 
 		NOT DETERMINISTIC 
@@ -157,6 +158,26 @@ BEGIN
 				ORDER BY ride.id ASC; 
 END //
 
+DELIMITER ;
+
+DELIMITER //
+	
+CREATE PROCEDURE `get_dayplan`(IN `in_user_id` INT(10) UNSIGNED, IN `in_day` INT(11))
+		NOT DETERMINISTIC 
+		CONTAINS SQL 
+		SQL SECURITY DEFINER 
+BEGIN 
+	SELECT dayplanner.day AS day, 
+		dayplanner.leaving AS leaving, 
+		dayplanner.to_id AS to_id, 
+		dayplanner.from_id AS from_id, 
+		dayplanner.plan_id AS plan_id, 
+		planner.id AS id 
+			FROM dayplanner 
+				JOIN planner ON dayplanner.plan_id=planner.id 
+			WHERE dayplanner.day = in_day AND planner.user_id = in_user_id; 
+END //
+	
 DELIMITER ;
 
 # Triggers
