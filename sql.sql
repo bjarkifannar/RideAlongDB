@@ -180,6 +180,33 @@ END //
 	
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE get_location(IN in_location_id INT(11))
+BEGIN
+	SELECT id, location_name, lat, lng FROM location WHERE id=in_location_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE get_all_locations()
+BEGIN
+	SELECT id, location_name, lat, lng FROM location;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE add_ride(in_user_id INT(11), in_to_id INT(11), in_from_id INT(11), in_message VARCHAR(255), in_is_request TINYINT(1))
+BEGIN
+	INSERT INTO ride (user_id, to_id, from_id, message, is_request) VALUES (in_user_id, in_to_id, in_from_id, in_message, in_is_request);
+END //
+
+DELIMITER ;
+
 # Triggers
 
 DELIMITER //
