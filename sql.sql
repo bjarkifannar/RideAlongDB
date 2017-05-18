@@ -207,8 +207,30 @@ END //
 
 DELIMITER ;
 
-# Triggers
+DELIMITER //
 
+CREATE PROCEDURE get_ride_requests(IN in_to_id INT, IN in_from_id INT)
+BEGIN
+	SELECT ride.message AS request_message,
+			ride.updated_at AS request_time,
+			users.id AS user_id,
+			users.name AS user_name,
+			social_accounts.user_img AS user_img
+				FROM ride
+			INNER JOIN users
+				ON ride.user_id=users.id
+			INNER JOIN social_accounts
+				ON users.id=social_accounts.user_id
+			WHERE ride.to_id=in_to_id
+				AND ride.from_id=in_from_id
+				AND ride.available=1
+				AND ride.is_request=1
+			ORDER BY ride.id ASC;
+END //
+
+DELIMITER ;
+
+# Triggers
 DELIMITER //
 
 CREATE TRIGGER insert_img_link BEFORE INSERT ON social_accounts
